@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.leyou.dao.BrandMapper">
+
+    <select id="findBrand" resultType="com.leyou.pojo.Brand">
+
+        select  * from tb_brand b
+        <where>
+            <if test="key!=null and key!=''">
+                   (name like '%${key}%'
+                   or
+                   letter = #{key})
+            </if>
+        </where>
+         <if test="sortBy!=null and sortBy!=''">
+             order by ${sortBy}
+             <if test="desc">
+                 desc
+             </if>
+         </if>
+    </select>
+
+    <select id="findBrandLimit" resultType="com.leyou.pojo.Brand">
+        select  * from tb_brand b
+        <where>
+            <if test="key!=null and key!=''">
+                (name like '%${key}%'
+                or
+                letter = #{key})
+            </if>
+        </where>
+        <if test="sortBy!=null and sortBy!=''">
+            order by #{sortBy}
+            <if test="desc">
+                desc
+            </if>
+        </if>
+        limit #{page},#{rows}
+
+    </select>
+
+    <select id="findBrandCount" resultType="long">
+        select  count(*) from tb_brand b
+        <where>
+            <if test="key!=null and key!=''">
+                (name like '%${key}%'
+                or
+                letter = #{key})
+            </if>
+        </where>
+        <if test="sortBy!=null and sortBy!=''">
+            order by #{sortBy}
+            <if test="desc == true">
+                desc
+            </if>
+            <if test="desc == false ">
+                asc
+            </if>
+        </if>
+    </select>
+</mapper>
